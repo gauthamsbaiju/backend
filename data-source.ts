@@ -11,7 +11,8 @@ const dataSource = new DataSource({
     database: "training",
     entities: [Employee],
     logging: true,
-    namingStrategy: new SnakeNamingStrategy()
+    namingStrategy: new SnakeNamingStrategy(),
+    synchronize: true
 })
 
 export default dataSource;

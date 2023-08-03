@@ -1,40 +1,30 @@
 import express from "express";
 import Employee from "./employee";
-import { DataSource } from "typeorm";
+import { DataSource, FindManyOptions, FindOptionsWhere, Like, QueryBuilder } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 import dataSource from "./data-source";
 
 const employeeRouter = express.Router();
 let count = 3;
 
-const employees: Employee[] = [
-    {
-        id:1,
-        name: "Name1",
-        email: "name1@gmail.com",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id:2,
-        name: "Name2",
-        email: "name2@gmail.com",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id:3,
-        name: "Name3",
-        email: "name3@gmail.com",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    }
-]
 
 employeeRouter.get('/', async(req,res)=>{
 
+    const nameFilter = req.query.name as string;
+    const emailFilter = req.query.email as string;
     const employeeRepository = dataSource.getRepository(Employee);
-    const employee = await employeeRepository.find();
+
+    const filters: FindOptionsWhere<Employee> = {};
+    
+    const qb = employeeRepository.createQueryBuilder().select([Employee.name]);
+    if(nameFilter){
+        qb.andWhere("name like :n", {n: `${nameFilter}%`})
+    }
+    if(emailFilter){
+        qb.andWhere("email like :n", {n: `${emailFilter}%`})
+    }
+    
+    const employee = await qb.getMany();
     res.status(200).send(employee);
 });
 
@@ -45,7 +35,10 @@ employeeRouter.get('/:id', async(req,res)=>{
     const employee = await employeeRepository.findOneBy({
         id
     })
-    res.status(200).send(employee);
+    if(employee)
+        res.status(200).send(employee);
+    else
+        res.status(404).send();
 });
 
 employeeRouter.post('/', async(req,res)=>{
@@ -78,8 +71,22 @@ employeeRouter.delete('/:id', async(req,res)=>{
     const employee = await employeeRepository.findOneBy({
         id
     })
-    await employeeRepository.remove(employee);
+    await employeeRepository.softRemove(employee);
     res.status(204).send();
 });
 
+
+
+// employeeRouter.patch('/:id', async(req,res)=>{
+    
+//     const id = parseInt(req.params.id);
+//     const employeeRepository = dataSource.getRepository(Employee);
+//     const employee = await employeeRepository.findOneBy({
+//         id
+//     })
+//     employee.name = req.body.name;
+//     employee.email = req.body.email;
+//     const updatedEmployee = await employeeRepository.save(employee)
+//     res.status(200).send(updatedEmployee);
+// });
 export default employeeRouter;
