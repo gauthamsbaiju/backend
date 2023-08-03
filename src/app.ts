@@ -1,14 +1,15 @@
 import "reflect-metadata"
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import employeeRouter from "./route/employee.route";
 import loggerMiddleware from "./middleware/logger.middleware";
 import dataSource from "./db/postgres.db";
+import HttpException from "./exception/http.exception";
+import errorMiddleware from "./middleware/error.middleware";
 
 const server = express();
 server.use(express.json());
 server.use(loggerMiddleware);
 server.use('/employees', employeeRouter)
-
 
 server.get('/*', (req,res)=>{
     const data = req.body;
@@ -16,6 +17,8 @@ server.get('/*', (req,res)=>{
     console.log(data);
     res.status(200).send("Hello world typescript");
 });
+
+server.use(errorMiddleware);
 
 (async ()=> {
     await dataSource.initialize();

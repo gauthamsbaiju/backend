@@ -9,10 +9,10 @@ const dataSource = new DataSource({
     username: "postgres",
     password: "postgres",
     database: "training",
-    entities: [Employee],
+    entities: ["dist/entity/*.js"],
     logging: true,
     namingStrategy: new SnakeNamingStrategy(),
-    synchronize: true
+    migrations: ["dist/db/migrations/*.js"],
 })
 
 export default dataSource;

@@ -1,4 +1,6 @@
+import Address from "../entity/address.entity";
 import Employee from "../entity/employee.entity";
+import HttpException from "../exception/http.exception";
 import EmployeeRepository from "../repository/employee.repository";
 
 class EmployeeService {
@@ -12,19 +14,39 @@ class EmployeeService {
         return this.employeeRepository.findAllEmployees();
     }
 
-    getEmployeeById(id: number): Promise<Employee> | null {
-        return this.employeeRepository.findAnEmployeeById(id);
+    async getEmployeeById(id: number): Promise<Employee> | null {
+        const employee = await this.employeeRepository.findAnEmployeeById(id);
+        if(!employee)
+        {
+            throw new HttpException(404,`Employee not found with id: ${id}`);
+        }
+        return employee;
     }
-    createEmployee(name:string, email:string): Promise<Employee> {
+    createEmployee(name:string, email:string, address:any): Promise<Employee> {
+        
         const newEmployee = new Employee();
         newEmployee.name = name;
         newEmployee.email = email;
+        
+        const newAddress = new Address;
+        newAddress.line1 = address.line1;
+        newAddress.pincode = address.pincode;
+
+        newEmployee.address = newAddress;
+        
         return this.employeeRepository.createEmployee(newEmployee);
     }
-    async updateEmployee(id: number, email: string, name: string): Promise<Employee> | null {
+    async updateEmployee(id: number, email: string, name: string, address:any): Promise<Employee> | null {
         const employee = await this.employeeRepository.findAnEmployeeById(id);
+        if(!employee)
+        {
+            throw new HttpException(404,`Employee not found with id: ${id}`);
+        }
         employee.email = email;
         employee.name = name;
+        employee.address.line1 = address.line1;
+        employee.address.pincode = address.pincode;
+       
         return this.employeeRepository.updateEmployee(employee);
     }
     async deleteEmployee(id: number): Promise<void | boolean> {
@@ -32,7 +54,7 @@ class EmployeeService {
         if(employee)
             this.employeeRepository.deleteEmployee(employee);
         else
-            return false;
+            throw new HttpException(404,`Employee not found with id: ${id}`);
         return null;
     }
 }
