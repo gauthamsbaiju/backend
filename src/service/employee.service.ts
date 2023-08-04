@@ -85,7 +85,7 @@ class EmployeeService {
             role: employee.role
         }
 
-        const token = jsonwebtoken.sign(payload, "ABCDE", {
+        const token = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "1h"
         });
 
