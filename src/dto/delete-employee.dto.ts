@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsNumber, IsString, ValidateNested, isString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsNumberString, IsString, ValidateNested, isString } from "class-validator";
 
 class DeleteEmployeeDto{
     @IsNotEmpty()
-    @IsNumber()
+    @IsNumberString()
     id: number;
 }
 

@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Address from "./address.entity";
+import Department from "./department.entity";
 
 @Entity("employees")
 class Employee{
@@ -26,6 +27,9 @@ class Employee{
 
     @OneToOne(()=>Address, (address)=>address.employee, {cascade: true})
     address: Address;
+
+    @ManyToOne(()=>Department, (department)=> department.employee)
+    department: Department;
 }
 
 export default Employee;
