@@ -1,32 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, ManyToOne, OneToMany } from "typeorm";
-import Address from "./address.entity";
-import Employee from "./employee.entity";
+// import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, ManyToOne, OneToMany } from "typeorm";
+// import Address from "./address.entity";
+// import Employee from "./employee.entity";
+// import AbstractEntity from "./adstract-entity";
 
-@Entity()
-class Department{
-    @PrimaryGeneratedColumn()
-    id: number;
+// @Entity()
+// class Department extends AbstractEntity{
+//     @Column()
+//     name: string;
 
-    @Column()
-    name: string;
+//     @Column()
+//     email: string;
 
-    @Column()
-    email: string;
+//     @Column({nullable: true})
+//     age: number;
 
-    @Column({nullable: true})
-    age: number;
+//     @OneToMany(()=> Employee, (employee)=> employee.department)
+//     employee: Employee;
+// }
 
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
-
-    @DeleteDateColumn()
-    deletedAt: Date;
-
-    @OneToMany(()=> Employee, (employee)=> employee.department)
-    employee: Employee;
-}
-
-export default Department;
+// export default Department;

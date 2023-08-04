@@ -1,11 +1,11 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Address from "./address.entity";
-import Department from "./department.entity";
+// import Department from "./department.entity";
+import AbstractEntity from "./adstract-entity";
+import Role from "../utils/role.enum";
 
 @Entity("employees")
-class Employee{
-    @PrimaryGeneratedColumn()
-    id: number;
+class Employee extends AbstractEntity{
 
     @Column()
     name: string;
@@ -16,20 +16,17 @@ class Employee{
     @Column({nullable: true})
     age: number;
 
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
-
-    @DeleteDateColumn()
-    deletedAt: Date;
-
     @OneToOne(()=>Address, (address)=>address.employee, {cascade: true})
     address: Address;
 
-    @ManyToOne(()=>Department, (department)=> department.employee)
-    department: Department;
+    @Column()
+    password: string;
+
+    @Column({default: Role.DEVELOPER})
+    role: Role;
+
+    // @ManyToOne(()=>Department, (department)=> department.employee)
+    // department: Department;
 }
 
 export default Employee;
