@@ -9,7 +9,6 @@ const authenticate = async (req: RequestWithUser, res: Response, next: NextFunct
         const token = getTokenFromRequestHeader(req);
         const payload: jwtPayload = jsonwebtoken.verify(token, process.env.JWT_SECRET) as jwtPayload;
         req.name = payload.name;
-        req.email = payload.email;
         req.role = payload.role;
         next();
     }catch(error){

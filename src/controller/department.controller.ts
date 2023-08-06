@@ -5,6 +5,9 @@ import CreateDepartmentDto from "../dto/create-department.dto";
 import { validate } from "class-validator";
 import ValidateException from "../exception/validate.exception";
 import UpdateDepartmentDto from "../dto/update-department.dto";
+import DataFormat from "../utils/dataFromat";
+import authenticate from "../middleware/authenticate.middleware";
+import authorize from "../middleware/authorize.middleware";
 
 
 class DepartmentController{
@@ -14,23 +17,25 @@ class DepartmentController{
     constructor(private departmentService: DepartmentService){
         this.router = express.Router();
 
-        this.router.get('/', this.getAllDepartments);
-        this.router.get('/:id', this.getDepartmentById);
-        this.router.post('/', this.createDepartment);
-        this.router.put('/:id', this.updateDepartment);
-        this.router.delete('/:id', this.deleteDepartment);
+        this.router.get('/',  authenticate, this.getAllDepartments);
+        this.router.get('/:id', authenticate, this.getDepartmentById);
+        this.router.post('/', authenticate,  authorize, this.createDepartment);
+        this.router.put('/:id', authenticate,  authorize, this.updateDepartment);
+        this.router.delete('/:id', authenticate,  authorize, this.deleteDepartment);
     }
 
     getAllDepartments = async(req: express.Request, res: express.Response)=>{
         const departments = await this.departmentService.getAllDepartments();
-        res.status(200).send(departments);
+        const resData = new DataFormat(departments, null, "OK")
+        res.status(200).send(resData);
     }
     
     getDepartmentById = async(req: express.Request, res: express.Response, next: NextFunction)=>{
         try{
             const departmentId = Number(req.params.id);
             const department = await this.departmentService.getDepartmentById(departmentId);
-            res.status(200).send(department);
+            const resData = new DataFormat([department], null, "OK")
+            res.status(200).send(resData);
         }catch(error){
             next(error);
         }
@@ -46,7 +51,8 @@ class DepartmentController{
                 throw new ValidateException(errors); 
             }
             const department = await this.departmentService.createDepartment(createDepartmentDto);
-            res.status(200).send(department);
+            const resData = new DataFormat([department], null, "OK")
+            res.status(200).send(resData);
         }catch(error){
             next(error);
         }
@@ -62,7 +68,8 @@ class DepartmentController{
             throw new ValidateException(errors);
         }
         const department = await this.departmentService.updateDepartment(departmentId, updateDepartmentDto);
-        res.status(200).send(department);
+        const resData = new DataFormat([department], null, "OK")
+        res.status(200).send(resData);
         }catch(error){
             next(error)
         }

@@ -9,6 +9,7 @@ import DeleteEmployeeDto from "../dto/delete-employee.dto";
 import ValidateException from "../exception/validate.exception";
 import authenticate from "../middleware/authenticate.middleware";
 import authorize from "../middleware/authorize.middleware";
+import DataFormat from "../utils/dataFromat";
 
 class EmployeeController {
     
@@ -25,11 +26,11 @@ class EmployeeController {
         // this.router.post("/login", this.logInEmployee);
 
 
-        this.router.get('/', this.getAllEmployees);
-        this.router.get('/:id', this.getEmployeeById);
-        this.router.post('/', this.createEmployee);
-        this.router.put('/:id',this.updateEmployee);
-        this.router.delete('/:id', this.deleteEmployee);
+        this.router.get('/', authenticate, this.getAllEmployees);
+        this.router.get('/:id', authenticate,  this.getEmployeeById);
+        this.router.post('/',  authenticate, authorize, this.createEmployee);
+        this.router.patch('/:id', authenticate, authorize, this.updateEmployee);
+        this.router.delete('/:id',  authenticate, authorize, this.deleteEmployee);
         this.router.post("/login", this.logInEmployee);
 
     }
@@ -37,7 +38,8 @@ class EmployeeController {
     
     getAllEmployees = async(req: express.Request, res: express.Response)=> {
         const employee = await this.employeeService.getAllEmployees();
-        res.status(200).send(employee);
+        const resData = new DataFormat(employee, null, "OK")
+        res.status(200).send(resData);
     }
     
     
@@ -45,7 +47,8 @@ class EmployeeController {
         try{
             const employeeId = Number(req.params.id);
             const employee = await this.employeeService.getEmployeeById(employeeId);
-            res.status(200).send(employee);
+            const resData = new DataFormat([employee], null, "OK")
+            res.status(200).send(resData);
         }catch(error){
             next(error);
         }
@@ -63,7 +66,8 @@ class EmployeeController {
             throw new ValidateException(errors); 
         }
         const employee = await this.employeeService.createEmployee(createEmployeeDto);
-        res.status(200).send(employee);
+        const resData = new DataFormat([employee], null, "OK")
+        res.status(200).send(resData);
         }catch(error){
             next(error);
         }
@@ -83,12 +87,13 @@ class EmployeeController {
             throw new ValidateException(errors);
         }
         const employee = await this.employeeService.updateEmployee(employeeId, updateEmployeeDto);
-        res.status(200).send(employee);
+        const resData = new DataFormat([employee], null, "OK")
+        res.status(200).send(resData);
         }catch(error){
             next(error)
         }
     }
-    
+     
     
     deleteEmployee = async (req: express.Request, res: express.Response, next: NextFunction) => {
         try{
@@ -100,6 +105,7 @@ class EmployeeController {
         //     throw new ValidateException(400, "Validate Exception", errors);
         // }
         const employee = await this.employeeService.deleteEmployee(employeeId);
+        const resData = new DataFormat([], null, "OK");
         res.status(204).send();
         }catch(error){
             next(error);
@@ -108,10 +114,11 @@ class EmployeeController {
     
     public logInEmployee = async(req: express.Request, res: express.Response, next: express.NextFunction)=>{
 
-        const {email, password} = req.body;
+        const {username, password} = req.body;
         try{
-            const token = await this.employeeService.loginEmployee(email, password);
-            res.status(200).send({data: token});
+            const data = await this.employeeService.loginEmployee(username, password);
+            const resData = new DataFormat([data], null, "OK")
+            res.status(200).send(resData);
         }catch(error){
             next(error);
         }

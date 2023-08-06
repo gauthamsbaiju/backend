@@ -1,16 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import HttpException from "../exception/http.exception";
-import Role from "../utils/role.enum";
+import {AdminRole} from "../utils/role.enum";
 import { RequestWithUser } from "../utils/requestWithUser";
 
 const authorize = async(req: RequestWithUser, res: Response, next: NextFunction)=>{
 
     try{
         const role = req.role;
-        if(role !== Role.HR){
+        if(role in AdminRole){
+            next();
+        }
+        else{
             throw new HttpException(403, "You are not authorized to perfome this action");
         }
-        next();
+        //next();
     }catch(error){
         next(error);
     }

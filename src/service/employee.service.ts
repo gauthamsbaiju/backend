@@ -4,10 +4,14 @@ import HttpException from "../exception/http.exception";
 import EmployeeRepository from "../repository/employee.repository";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
-import Role from "../utils/role.enum";
+import {Role} from "../utils/role.enum";
 import { jwtPayload } from "../utils/jwtPayload.type";
 import CreateEmployeeDto from "../dto/create-employee.dto";
 import UpdateEmployeeDto from "../dto/update-employee.dto";
+import Department from "../entity/department.entity";
+import DepartmentService from "./department.service";
+import dataSource from "../db/postgres.db";
+import DepartmentRepository from "../repository/department.repository";
 
 class EmployeeService {
     
@@ -32,14 +36,27 @@ class EmployeeService {
     async createEmployee(employeeDto: CreateEmployeeDto): Promise<Employee> {
                 
         const newAddress = new Address;
-        newAddress.line1 = employeeDto.address.line1;
+        newAddress.address_line_1 = employeeDto.address.address_line_1;
+        newAddress.address_line_2 = employeeDto.address.address_line_2;
+        newAddress.city = employeeDto.address.city;
+        newAddress.state = employeeDto.address.state;
+        newAddress.country = employeeDto.address.country;
         newAddress.pincode = employeeDto.address.pincode;
         
         const newEmployee = new Employee();
         newEmployee.name = employeeDto.name;
-        newEmployee.email = employeeDto.email;
-        newEmployee.address = newAddress;
+        newEmployee.username = employeeDto.username;
         newEmployee.password = await bcrypt.hash(employeeDto.password,10);
+        newEmployee.joiningDate = employeeDto.joiningDate;
+        newEmployee.experience= employeeDto.experience;
+
+        const departmentRepository = new DepartmentRepository(dataSource.getRepository(Department));
+        const departmentService = new  DepartmentService(departmentRepository);
+
+        const department = await departmentService.getDepartmentById(employeeDto.department);
+
+        newEmployee.department = department;
+        newEmployee.address = newAddress;
         newEmployee.role = employeeDto.role;
         
         return this.employeeRepository.createEmployee(newEmployee);
@@ -52,18 +69,14 @@ class EmployeeService {
         {
             throw new HttpException(404,`Employee not found with id: ${id}`);
         }
-        // for(const x in employeeDto)
-        // {
-        //     const key = x as keyof typeof Employee;
-
-        //     employee[key] = employeeDto[key];
-        //     console.log(key);
-        //     console.log(employee[key]);
-        // }
-        employee.email = employeeDto.email;
-        employee.name = employeeDto.name;
-        employee.address.line1 = employeeDto.address.line1;
-        employee.address.pincode = employeeDto.address.pincode;
+        this.checkUpdate(employee, employeeDto);
+        // employee.name = employeeDto.name;
+        // employee.address.address_line_1 = employeeDto.address.address_line_1;
+        // employee.address.address_line_2 = employeeDto.address.address_line_2;
+        // employee.address.city = employeeDto.address.city;
+        // employee.address.state = employeeDto.address.state;
+        // employee.address.country = employeeDto.address.country;
+        // employee.address.pincode = employeeDto.address.pincode;
        
         return this.employeeRepository.updateEmployee(employee);
     }
@@ -78,8 +91,8 @@ class EmployeeService {
         return null;
     }
 
-     loginEmployee = async(email: string, password: string) => {
-        const employee = await this.employeeRepository.findAnEmployeeByEmail(email);
+     loginEmployee = async(username: string, password: string) => {
+        const employee = await this.employeeRepository.findAnEmployeeByUsername(username);
         if(!employee){
             throw new HttpException(401, "Incorrect username or password");
         }
@@ -92,17 +105,34 @@ class EmployeeService {
         }
 
         const payload: jwtPayload = {
-            name: employee.name,
-            email: employee.email,
+            name: employee.username,
             role: employee.role
         }
 
         const token = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "1h"
+            expiresIn: "5h"
         });
 
-        return { token: token };
+        return { token: token, employeeDetails: employee};
     }
+
+    checkUpdate = async(employee: Employee, dto: UpdateEmployeeDto)=>{
+        let array = Object.getOwnPropertyNames(dto);
+        for(const a in array){
+            if(array[a]!=="address"){
+                employee[array[a]] = dto[array[a]];
+            }else{
+                this.checkUpdateAddress(employee, dto[array[a]]);
+            }
+        }
+    }
+    checkUpdateAddress = async(employee: Employee, address:Object)=>{
+        let array = Object.getOwnPropertyNames(address);
+        for(const a in array){
+             employee["address"][array[a]] = address[array[a]];         
+        }
+    }
+
 }
 
 export default EmployeeService;

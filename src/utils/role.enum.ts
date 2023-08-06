@@ -1,7 +1,10 @@
-export enum Role{
-    UI = "UI",
-    DEVELOPER = "Developer",
-    HR = "HR",
+enum Role{
+    admin = "admin",
+    user = "user"
 }
 
-export default Role;
+enum AdminRole{
+    admin = "admin"
+}
+
+export {Role, AdminRole};

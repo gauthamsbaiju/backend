@@ -1,6 +1,7 @@
-import { DataSource, Repository } from "typeorm";
+import { DataSource, RelationId, Repository } from "typeorm";
 import Employee from "../entity/employee.entity";
 import dataSource from "../db/postgres.db";
+import { RelationIdLoader } from "typeorm/query-builder/RelationIdLoader";
 
 class EmployeeRepository {
     [x: string]: any;
@@ -12,9 +13,9 @@ class EmployeeRepository {
 
     findAllEmployees(): Promise<Employee[]> {
         return this.employeeRepository.find({
-            relations: {
-                address: true,
-            }
+            loadRelationIds: {
+                relations:["department"],
+            },
         });
 
     }
@@ -24,28 +25,45 @@ class EmployeeRepository {
             where: { id: id },
             relations: {
                 address: true,
+            },
+            loadRelationIds: {
+                relations: ["department"]
             }
         });   
     }
 
-    findAnEmployeeByEmail(email: string): Promise<Employee> | null {
+    async createEmployee(employee: Employee): Promise<Employee> {
+        const emp = await this.employeeRepository.save(employee);
         return this.employeeRepository.findOne({
-            where: { email: email },
+            where: { id: emp.id},
             relations: {
                 address: true,
-            }
-        });   
+            },
+            loadRelationIds: {
+                relations:["department"],
+            },
+        }); 
     }
-    createEmployee(employee: Employee): Promise<Employee> {
-        return this.employeeRepository.save(employee); 
-    }
+    
     updateEmployee(employee: Employee): Promise<Employee> | null {
         return this.employeeRepository.save(employee);  
     }
+    
     deleteEmployee(employee: Employee): Promise<void> {
         this.employeeRepository.softRemove(employee);  
         return null;
     }
+
+    findAnEmployeeByUsername(name: string): Promise<Employee> {
+        return this.employeeRepository.findOne({
+            where: { username: name },
+            loadRelationIds : {
+                relations: ["department"]
+            }
+        });
+    }
+
+
 
 }
 

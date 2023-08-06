@@ -9,14 +9,14 @@ class DepartmentRepository{
     }
 
     findAllDepartments(): Promise<Department[]>{
-        return this.departmentRepository.find()
+        return this.departmentRepository.find({})
     }
 
     findDepartmentById(id: number): Promise<Department>{
         return this.departmentRepository.findOne({
             where : {id : id}
         });
-    }
+    } 
 
     createDepartment(department: Department): Promise<Department>{
         return this.departmentRepository.save(department);

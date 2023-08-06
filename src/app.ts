@@ -8,12 +8,14 @@ import dataSource from "./db/postgres.db";
 import HttpException from "./exception/http.exception";
 import errorMiddleware from "./middleware/error.middleware";
 import departmentRouter from "./route/department.route";
+import rolesRouter from "./route/role.route";
 
 const server = express();
 server.use(express.json());
 server.use(loggerMiddleware);
-server.use('/employees', employeeRouter)
-server.use('/departments', departmentRouter)
+server.use('/api/employees', employeeRouter)
+server.use('/api/departments', departmentRouter)
+server.use('/api/roles', rolesRouter)
 
 server.get('/*', (req,res)=>{
     const data = req.body;
