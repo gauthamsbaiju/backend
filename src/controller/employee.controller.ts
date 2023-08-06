@@ -11,6 +11,14 @@ import authenticate from "../middleware/authenticate.middleware";
 import authorize from "../middleware/authorize.middleware";
 import DataFormat from "../utils/dataFromat";
 
+// const tracer = require('dd-trace').init({
+//     logInjection: true,
+    
+// });
+
+import logger from "../logs/logger";
+
+
 class EmployeeController {
     
     public router: express.Router;
@@ -38,6 +46,7 @@ class EmployeeController {
     
     getAllEmployees = async(req: express.Request, res: express.Response)=> {
         const employee = await this.employeeService.getAllEmployees();
+        logger.info("All employees retrieved");
         const resData = new DataFormat(employee, null, "OK")
         res.status(200).send(resData);
     }
@@ -47,9 +56,11 @@ class EmployeeController {
         try{
             const employeeId = Number(req.params.id);
             const employee = await this.employeeService.getEmployeeById(employeeId);
+            logger.info(`Employee with id ${employeeId} retrieved`);
             const resData = new DataFormat([employee], null, "OK")
             res.status(200).send(resData);
         }catch(error){
+            logger.warn(`Employee not found`);
             next(error);
         }
     }
@@ -63,12 +74,15 @@ class EmployeeController {
         const errors = await validate(createEmployeeDto);
         if(errors.length>0){
             console.log(errors);
+            logger.warn(`Validation error`);
             throw new ValidateException(errors); 
         }
         const employee = await this.employeeService.createEmployee(createEmployeeDto);
+        logger.info(`Employee created`);
         const resData = new DataFormat([employee], null, "OK")
         res.status(200).send(resData);
         }catch(error){
+            logger.warn(`Unable to create employee`);
             next(error);
         }
     }
@@ -84,12 +98,15 @@ class EmployeeController {
         const errors = await validate(updateEmployeeDto);
         if(errors.length>0){
             console.log(errors);
+            logger.warn(`Validation error`);
             throw new ValidateException(errors);
         }
         const employee = await this.employeeService.updateEmployee(employeeId, updateEmployeeDto);
+        logger.info(`Employee updated`);
         const resData = new DataFormat([employee], null, "OK")
         res.status(200).send(resData);
         }catch(error){
+            logger.warn(`Unable to update employee`);
             next(error)
         }
     }
@@ -105,9 +122,11 @@ class EmployeeController {
         //     throw new ValidateException(400, "Validate Exception", errors);
         // }
         const employee = await this.employeeService.deleteEmployee(employeeId);
+        logger.info(`Employee deleted`);
         const resData = new DataFormat([], null, "OK");
         res.status(204).send();
         }catch(error){
+            logger.warn(`Unable to delete employee`);
             next(error);
         }
     }
@@ -118,8 +137,10 @@ class EmployeeController {
         try{
             const data = await this.employeeService.loginEmployee(username, password);
             const resData = new DataFormat([data], null, "OK")
+            logger.info(`Successfully logged in`);
             res.status(200).send(resData);
         }catch(error){
+            logger.warn(`Log in failed`);
             next(error);
         }
     

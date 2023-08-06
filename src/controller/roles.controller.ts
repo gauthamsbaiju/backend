@@ -1,3 +1,4 @@
+import logger from "../logs/logger";
 import DataFormat from "../utils/dataFromat";
 import { Role } from "../utils/role.enum";
 import express, { NextFunction } from "express";
@@ -16,6 +17,7 @@ class RolesController{
             this.roles.push(role);
         }
         const resData = new DataFormat(this.roles, null, "OK")
+        logger.info(`Roles retrieved`);
         res.status(200).send(resData);
     }
 

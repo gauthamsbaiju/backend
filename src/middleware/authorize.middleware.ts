@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import HttpException from "../exception/http.exception";
 import {AdminRole} from "../utils/role.enum";
 import { RequestWithUser } from "../utils/requestWithUser";
+import logger from "../logs/logger";
 
 const authorize = async(req: RequestWithUser, res: Response, next: NextFunction)=>{
 
@@ -15,6 +16,7 @@ const authorize = async(req: RequestWithUser, res: Response, next: NextFunction)
         }
         //next();
     }catch(error){
+        logger.error("Unauthorized accees");
         next(error);
     }
 }

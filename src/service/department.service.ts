@@ -45,7 +45,7 @@ class DepartmentService{
         if(!department){
             throw new HttpException(404,`Department not found with id: ${id}`);
         }
-        this.departmentRepository.deleteDepartment(department);
+        await this.departmentRepository.deleteDepartment(department);
         return await this.departmentRepository.findDeleted(id);
     }
 }

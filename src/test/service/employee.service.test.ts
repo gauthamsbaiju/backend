@@ -38,4 +38,60 @@ describe('Employee Service tests', ()=>{
         })
 
     })
+    
+    describe("Test for createEmployee", ()=>{
+
+        test('test for create', async()=>{
+            const mockFunction = jest.fn();
+            const employee = new Employee();
+            when(mockFunction).calledWith(employee).mockResolvedValueOnce({
+                "name":"Ashok",
+                "username":"ash",
+                "password":"ashok",
+                "joiningDate":"11/02/2012",
+                "experience":8,
+                "departmentId":"2",
+                "role":"admin",
+                "address":{
+                    "address_line_1":"Edachira",
+                    "address_line_2":"Kakkanad",
+                    "city":"Ernakulam",
+                    "state":"Kerala",
+                    "country":"India",
+                    "pincode":"682024"
+                }
+            });
+            employeeRepository.createEmployee = mockFunction;
+            //const employee = await employeeService.getEmployeeById(1);
+            expect(employee).toStrictEqual({
+                "name":"Ashok",
+                "username":"ash",
+                "password":"ashok",
+                "joiningDate":"11/02/2012",
+                "experience":8,
+                "departmentId":"2",
+                "role":"admin",
+                "address":{
+                    "address_line_1":"Edachira",
+                    "address_line_2":"Kakkanad",
+                    "city":"Ernakulam",
+                    "state":"Kerala",
+                    "country":"India",
+                    "pincode":"682024"
+                }
+            });
+        })
+        
+        
+        test('test employee for id 1 not found', async()=>{
+            const mockFunction = jest.fn();
+            when(mockFunction).calledWith(1).mockResolvedValueOnce(null);
+            employeeRepository.findAnEmployeeById = mockFunction;
+            // const employee = await employeeService.getEmployeeById(1);
+            // expect(employee).toEqual({id:1, name:"abcd"});
+            expect(async()=>{await employeeService.getEmployeeById(1)}).rejects.toThrowError();
+            
+        })
+
+    })
 })
