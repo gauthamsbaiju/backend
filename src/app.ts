@@ -7,11 +7,13 @@ import loggerMiddleware from "./middleware/logger.middleware";
 import dataSource from "./db/postgres.db";
 import HttpException from "./exception/http.exception";
 import errorMiddleware from "./middleware/error.middleware";
+import departmentRouter from "./route/department.route";
 
 const server = express();
 server.use(express.json());
 server.use(loggerMiddleware);
 server.use('/employees', employeeRouter)
+server.use('/departments', departmentRouter)
 
 server.get('/*', (req,res)=>{
     const data = req.body;

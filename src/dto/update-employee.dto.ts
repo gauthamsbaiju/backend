@@ -19,7 +19,7 @@ class UpdateEmployeeDto{
     address: Address;
 
     // @IsNotEmpty()
-    // @IsNumberString()
+    // @IsNumberString() 
     // id: number;
 }
 

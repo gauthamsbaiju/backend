@@ -6,6 +6,8 @@ import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import Role from "../utils/role.enum";
 import { jwtPayload } from "../utils/jwtPayload.type";
+import CreateEmployeeDto from "../dto/create-employee.dto";
+import UpdateEmployeeDto from "../dto/update-employee.dto";
 
 class EmployeeService {
     
@@ -13,8 +15,8 @@ class EmployeeService {
     constructor(private employeeRepository: EmployeeRepository) {
     }
 
-    getAllEmployees(): Promise<Employee[]>{
-        return this.employeeRepository.findAllEmployees();
+    async getAllEmployees(): Promise<Employee[]>{
+        return await this.employeeRepository.findAllEmployees();
     }
 
     async getEmployeeById(id: number): Promise<Employee> | null {
@@ -27,33 +29,41 @@ class EmployeeService {
     }
     
     
-    async createEmployee(name:string, email:string, address:any, password:string, role: Role): Promise<Employee> {
+    async createEmployee(employeeDto: CreateEmployeeDto): Promise<Employee> {
                 
         const newAddress = new Address;
-        newAddress.line1 = address.line1;
-        newAddress.pincode = address.pincode;
+        newAddress.line1 = employeeDto.address.line1;
+        newAddress.pincode = employeeDto.address.pincode;
         
         const newEmployee = new Employee();
-        newEmployee.name = name;
-        newEmployee.email = email;
+        newEmployee.name = employeeDto.name;
+        newEmployee.email = employeeDto.email;
         newEmployee.address = newAddress;
-        newEmployee.password = await bcrypt.hash(password,10);
-        newEmployee.role = role;
+        newEmployee.password = await bcrypt.hash(employeeDto.password,10);
+        newEmployee.role = employeeDto.role;
         
         return this.employeeRepository.createEmployee(newEmployee);
     }
     
     
-    async updateEmployee(id: number, email: string, name: string, address:any): Promise<Employee> | null {
+    async updateEmployee(id: number,employeeDto: UpdateEmployeeDto): Promise<Employee> | null {
         const employee = await this.employeeRepository.findAnEmployeeById(id);
         if(!employee)
         {
             throw new HttpException(404,`Employee not found with id: ${id}`);
         }
-        employee.email = email;
-        employee.name = name;
-        employee.address.line1 = address.line1;
-        employee.address.pincode = address.pincode;
+        // for(const x in employeeDto)
+        // {
+        //     const key = x as keyof typeof Employee;
+
+        //     employee[key] = employeeDto[key];
+        //     console.log(key);
+        //     console.log(employee[key]);
+        // }
+        employee.email = employeeDto.email;
+        employee.name = employeeDto.name;
+        employee.address.line1 = employeeDto.address.line1;
+        employee.address.pincode = employeeDto.address.pincode;
        
         return this.employeeRepository.updateEmployee(employee);
     }
@@ -73,7 +83,9 @@ class EmployeeService {
         if(!employee){
             throw new HttpException(401, "Incorrect username or password");
         }
-
+        const p = await bcrypt.hash(password,10)
+        console.log(p);
+        console.log(employee.password);
         const result = await bcrypt.compare(password, employee.password);
         if(!result){
             throw new HttpException(401, "Incorrect username or password");

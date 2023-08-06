@@ -1,6 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Address from "./address.entity";
-// import Department from "./department.entity";
+import Department from "./department.entity";
 import AbstractEntity from "./adstract-entity";
 import Role from "../utils/role.enum";
 
@@ -25,8 +25,9 @@ class Employee extends AbstractEntity{
     @Column({default: Role.DEVELOPER})
     role: Role;
 
-    // @ManyToOne(()=>Department, (department)=> department.employee)
-    // department: Department;
+    @ManyToOne(()=>Department, (department)=> department.employee)
+    @JoinColumn()
+    department: Department;
 }
 
-export default Employee;
+export default Employee; 
