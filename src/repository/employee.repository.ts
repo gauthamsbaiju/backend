@@ -13,6 +13,7 @@ class EmployeeRepository {
 
     findAllEmployees(): Promise<Employee[]> {
         return this.employeeRepository.find({
+            // skip: offset
             // loadRelationIds: {
             //     relations:["department"],
             // },

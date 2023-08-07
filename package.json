@@ -8,9 +8,9 @@
     "test-coverage": "jest --coverage",
     "build": "rm -rf dist && npx tsc && cp .env ./dist/.env",
     "start-server": "npm run build && node dist/app.js",
-    "migration:generate": "npm run build && npx typeorm migration:generate -d dist/db/postgres.db.js",
-    "migration:run": "npm run build && npx typeorm migration:run -d dist/db/postgres.db.js",
-    "migration:revert": "npm run build && npx typeorm migration:revert -d dist/db/postgres.db.js"
+    "migration:generate": "npm run build && node -r dotenv/config  node_modules//.bin/typeorm migration:generate -d dist/db/postgres.db.js",
+    "migration:run": "npm run build && node -r dotenv/config  node_modules//.bin/typeorm migration:run  -d dist/db/postgres.db.js",
+    "migration:revert": "npm run build && node -r dotenv/config  node_modules//.bin/typeorm migration:revert -d dist/db/postgres.db.js"
   },
   "keywords": [],
   "author": "",

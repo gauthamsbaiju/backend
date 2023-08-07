@@ -1,2 +1,29 @@
 {"level":"info","message":"541e0960-3504-11ee-b015-1d94d2bc354b All employees retrieved"}
 {"level":"warn","message":"56ceaa70-3504-11ee-b015-1d94d2bc354b Invalid Token"}
+{"level":"info","message":"cba78160-3512-11ee-80a8-11e38e2e8053 Roles retrieved"}
+{"level":"warn","message":"d1c8df30-3512-11ee-80a8-11e38e2e8053 Invalid Token"}
+{"level":"info","message":"d5dedca0-3512-11ee-80a8-11e38e2e8053 Successfully logged in"}
+{"level":"info","message":"dcb7a390-3512-11ee-80a8-11e38e2e8053 Successfully logged in"}
+{"level":"warn","message":"de7f1d20-3512-11ee-80a8-11e38e2e8053 Invalid Token"}
+{"level":"info","message":"e15128e0-3512-11ee-80a8-11e38e2e8053 All employees retrieved"}
+{"level":"warn","message":"e755afe0-3512-11ee-80a8-11e38e2e8053 Invalid Token"}
+{"level":"warn","message":"ea6b5450-3512-11ee-80a8-11e38e2e8053 Employee not found"}
+{"level":"warn","message":"ed2c7020-3512-11ee-80a8-11e38e2e8053 Employee not found"}
+{"level":"info","message":"f1e8e6c0-3512-11ee-80a8-11e38e2e8053 Employee with id 23 retrieved"}
+{"level":"warn","message":"ff55f190-3512-11ee-80a8-11e38e2e8053 Invalid Token"}
+{"level":"info","message":"04294b90-3513-11ee-80a8-11e38e2e8053 Employee updated"}
+{"level":"info","message":"0b6d5770-3513-11ee-80a8-11e38e2e8053 All departments retrieved"}
+{"level":"info","message":"1520b5a0-3513-11ee-80a8-11e38e2e8053 Departments with id 2retrieved"}
+{"level":"info","message":"1f1848c0-3513-11ee-80a8-11e38e2e8053 Departments created"}
+{"level":"warn","message":"26463490-3513-11ee-80a8-11e38e2e8053 Validation error"}
+{"level":"warn","message":"26463490-3513-11ee-80a8-11e38e2e8053 Unable to create department"}
+{"level":"info","message":"39681fc0-3513-11ee-80a8-11e38e2e8053 All departments retrieved"}
+{"level":"info","message":"44d255b0-3513-11ee-80a8-11e38e2e8053 Department updated"}
+{"level":"info","message":"4be7b070-3513-11ee-80a8-11e38e2e8053 Department deleted"}
+{"level":"info","message":"68bde430-3513-11ee-80a8-11e38e2e8053 All employees retrieved"}
+{"level":"info","message":"fbba4580-3518-11ee-91c7-953e7108b69b Roles retrieved"}
+{"level":"info","message":"fc8b9f40-3518-11ee-91c7-953e7108b69b Roles retrieved"}
+{"level":"info","message":"dd390460-3519-11ee-b3ee-59816d4759a9 All employees retrieved"}
+{"level":"info","message":"e75647f0-3519-11ee-b3ee-59816d4759a9 Employee with id 23 retrieved"}
+{"level":"info","message":"ec8f6bd0-351d-11ee-aa87-57db806923a5 Employee with id 23 retrieved"}
+{"level":"info","message":"f2910ca0-351d-11ee-aa87-57db806923a5 Employee with id 23 retrieved"}

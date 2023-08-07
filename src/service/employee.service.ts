@@ -120,14 +120,16 @@ class EmployeeService {
     checkUpdate = async(employee: Employee, dto: UpdateEmployeeDto)=>{
         let array = Object.getOwnPropertyNames(dto);
         for(const a in array){
-            if(array[a]!=="address"){
-                employee[array[a]] = dto[array[a]];
+            if(array[a]==="address"){
+                this.checkUpdateAddress(employee, dto[array[a]]);
+                //employee[array[a]] = dto[array[a]];
             }
-            else if(array[a]!=="password"){
+            else if(array[a]==="password"){
                 continue;
             }
             else{
-                this.checkUpdateAddress(employee, dto[array[a]]);
+                //this.checkUpdateAddress(employee, dto[array[a]]);
+                employee[array[a]] = dto[array[a]];
             }
         }
     }

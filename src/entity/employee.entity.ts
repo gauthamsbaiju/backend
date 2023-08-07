@@ -13,7 +13,7 @@ class Employee extends AbstractEntity{
     @Column()
     username: string;
 
-    @Column()
+    @Column({select: false})
     password: string;
 
     @Column()
