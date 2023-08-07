@@ -125,7 +125,7 @@ describe('Employee Service tests', ()=>{
                 "password":"ashok",
                 "joiningDate":"11/02/2012",
                 "experience":8,
-                "department":2,
+                "departmentId":2,
                 "role":Role.admin,
                 "address": {
                     "address_line_1":"Edachira",
@@ -161,7 +161,7 @@ describe('Employee Service tests', ()=>{
     
     describe("Test for updateEmployee", ()=>{
 
-        const updateDto : CreateEmployeeDto = {
+        const updateDto : UpdateEmployeeDto = {
         
             "name":"Ashok",
             "username":"ash",

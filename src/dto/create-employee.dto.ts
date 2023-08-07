@@ -26,7 +26,7 @@ class CreateEmployeeDto{
     experience: number;
 
     @IsNotEmpty()
-    department: number;
+    departmentId: number;
 
     @IsNotEmpty()
     @IsEnum(Role)

@@ -11,9 +11,13 @@ class EmployeeRepository {
     constructor(private employeeRepository: Repository<Employee>) {
     }
 
-    findAllEmployees(): Promise<Employee[]> {
+    findAllEmployees(offset:number, limit:number): Promise<Employee[]> {
         return this.employeeRepository.find({
-            // skip: offset
+            order: {
+                id: 'ASC'
+            },
+            skip: offset,
+            take: limit
             // loadRelationIds: {
             //     relations:["department"],
             // },

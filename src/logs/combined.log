@@ -27,3 +27,32 @@
 {"level":"info","message":"e75647f0-3519-11ee-b3ee-59816d4759a9 Employee with id 23 retrieved"}
 {"level":"info","message":"ec8f6bd0-351d-11ee-aa87-57db806923a5 Employee with id 23 retrieved"}
 {"level":"info","message":"f2910ca0-351d-11ee-aa87-57db806923a5 Employee with id 23 retrieved"}
+{"level":"info","message":"1a6ccba0-351f-11ee-b273-c78d062e041f All departments retrieved"}
+{"level":"info","message":"1eb71f80-351f-11ee-b273-c78d062e041f Departments created"}
+{"level":"info","message":"22c554c0-351f-11ee-b273-c78d062e041f All departments retrieved"}
+{"level":"info","message":"2ca4f310-351f-11ee-b273-c78d062e041f Employee created"}
+{"level":"info","message":"32331190-351f-11ee-b273-c78d062e041f Department deleted"}
+{"level":"info","message":"63fbf8e0-351f-11ee-b273-c78d062e041f Employee with id 31 retrieved"}
+{"level":"info","message":"ce287400-351f-11ee-b273-c78d062e041f All departments retrieved"}
+{"level":"info","message":"d862dc80-351f-11ee-b273-c78d062e041f Departments created"}
+{"level":"info","message":"dc4dab40-351f-11ee-b273-c78d062e041f All departments retrieved"}
+{"level":"info","message":"e0aff3f0-351f-11ee-b273-c78d062e041f Departments with id 2retrieved"}
+{"level":"warn","message":"e5cfc040-351f-11ee-b273-c78d062e041f Department not found"}
+{"level":"info","message":"ec76efe0-351f-11ee-b273-c78d062e041f Department updated"}
+{"level":"info","message":"f396f900-351f-11ee-b273-c78d062e041f Department deleted"}
+{"level":"warn","message":"083e24a0-3520-11ee-b273-c78d062e041f Unable to create employee"}
+{"level":"info","message":"847638f0-3520-11ee-a174-e3c382e8be7a Employee created"}
+{"level":"info","message":"a5a40700-3520-11ee-a174-e3c382e8be7a Department deleted"}
+{"level":"info","message":"a852d350-3520-11ee-a174-e3c382e8be7a All employees retrieved"}
+{"level":"info","message":"3ae36560-3524-11ee-b5f4-7dabcd925f1e All employees retrieved"}
+{"level":"info","message":"45716c20-3524-11ee-b5f4-7dabcd925f1e All employees retrieved"}
+{"level":"info","message":"4b820110-3524-11ee-b5f4-7dabcd925f1e All employees retrieved"}
+{"level":"info","message":"5481c6b0-3524-11ee-b5f4-7dabcd925f1e All employees retrieved"}
+{"level":"info","message":"e0684a50-3524-11ee-aaa2-eb1290443fd6 All employees retrieved"}
+{"level":"info","message":"f2584530-3524-11ee-8933-5f3d887dfc40 All employees retrieved"}
+{"level":"info","message":"f7a710c0-3524-11ee-8933-5f3d887dfc40 All employees retrieved"}
+{"level":"info","message":"fab5fe70-3524-11ee-8933-5f3d887dfc40 All employees retrieved"}
+{"level":"info","message":"fe752950-3524-11ee-8933-5f3d887dfc40 All employees retrieved"}
+{"level":"info","message":"017215a0-3525-11ee-8933-5f3d887dfc40 All employees retrieved"}
+{"level":"info","message":"06c9e1e0-3525-11ee-8933-5f3d887dfc40 All employees retrieved"}
+{"level":"info","message":"0902e1f0-3525-11ee-8933-5f3d887dfc40 All employees retrieved"}

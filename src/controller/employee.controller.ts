@@ -45,7 +45,15 @@ class EmployeeController {
     
     
     getAllEmployees = async(req: RequestWithID, res: express.Response)=> {
-        const employee = await this.employeeService.getAllEmployees();
+        let limit = Number(req.query["limit"]);
+        let offset = Number(req.query["offset"]);
+        if(isNaN(limit)){
+            limit = 100;
+        }
+        if(isNaN(offset)){
+            offset = 0;
+        }
+        const employee = await this.employeeService.getAllEmployees(offset,limit);
         console.log(req.id)
         logger.info(req.id.toString(), {message: "All employees retrieved"});
         const resData = new DataFormat(employee, null, "OK")
@@ -70,7 +78,6 @@ class EmployeeController {
     createEmployee = async(req: RequestWithID, res: express.Response, next: NextFunction)=> {
 
         try{
-        const { name, email, password, address, role} = req.body;
         const createEmployeeDto = plainToInstance(CreateEmployeeDto, req.body);
         const errors = await validate(createEmployeeDto);
         if(errors.length>0){

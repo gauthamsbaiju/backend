@@ -19,8 +19,8 @@ class EmployeeService {
     constructor(private employeeRepository: EmployeeRepository, private departmentService: DepartmentService) {
     }
 
-    async getAllEmployees(): Promise<Employee[]>{
-        return await this.employeeRepository.findAllEmployees();
+    async getAllEmployees(offset:number, limit:number): Promise<Employee[]>{
+        return await this.employeeRepository.findAllEmployees(offset, limit);
     }
 
     async getEmployeeById(id: number): Promise<Employee> | null {
@@ -53,7 +53,7 @@ class EmployeeService {
         // const departmentRepository = new DepartmentRepository(dataSource.getRepository(Department));
         // const departmentService = new  DepartmentService(departmentRepository);
 
-        const department = await this.departmentService.getDepartmentById(employeeDto.department);
+        const department = await this.departmentService.getDepartmentById(employeeDto.departmentId);
 
         newEmployee.department = department;
         newEmployee.address = newAddress;
