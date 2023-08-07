@@ -3,8 +3,9 @@ import HttpException from "../exception/http.exception";
 import {AdminRole} from "../utils/role.enum";
 import { RequestWithUser } from "../utils/requestWithUser";
 import logger from "../logs/logger";
+import { RequestWithID } from "../utils/reqWithId";
 
-const authorize = async(req: RequestWithUser, res: Response, next: NextFunction)=>{
+const authorize = async(req: RequestWithID, res: Response, next: NextFunction)=>{
 
     try{
         const role = req.role;
@@ -16,7 +17,7 @@ const authorize = async(req: RequestWithUser, res: Response, next: NextFunction)
         }
         //next();
     }catch(error){
-        logger.error("Unauthorized accees");
+        logger.error(req.id.toString(), {message:"Unauthorized accees"});
         next(error);
     }
 }

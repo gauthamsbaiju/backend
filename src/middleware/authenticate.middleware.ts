@@ -3,8 +3,9 @@ import jsonwebtoken, { JwtHeader, JwtPayload } from "jsonwebtoken";
 import { RequestWithUser } from "../utils/requestWithUser";
 import { jwtPayload } from "../utils/jwtPayload.type";
 import logger from "../logs/logger";
+import { RequestWithID } from "../utils/reqWithId";
 
-const authenticate = async (req: RequestWithUser, res: Response, next: NextFunction)=>{
+const authenticate = async (req: RequestWithID, res: Response, next: NextFunction)=>{
     try{
 
         const token = getTokenFromRequestHeader(req);
@@ -13,7 +14,7 @@ const authenticate = async (req: RequestWithUser, res: Response, next: NextFunct
         req.role = payload.role;
         next();
     }catch(error){
-        logger.warn("Invalid Token");
+        logger.warn(req.id.toString(), {message:"Invalid Token"});
         next(error);
     }
 }

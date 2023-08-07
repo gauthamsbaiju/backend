@@ -16,7 +16,7 @@ import DepartmentRepository from "../repository/department.repository";
 class EmployeeService {
     
     
-    constructor(private employeeRepository: EmployeeRepository) {
+    constructor(private employeeRepository: EmployeeRepository, private departmentService: DepartmentService) {
     }
 
     async getAllEmployees(): Promise<Employee[]>{
@@ -50,10 +50,10 @@ class EmployeeService {
         newEmployee.joiningDate = employeeDto.joiningDate;
         newEmployee.experience= employeeDto.experience;
 
-        const departmentRepository = new DepartmentRepository(dataSource.getRepository(Department));
-        const departmentService = new  DepartmentService(departmentRepository);
+        // const departmentRepository = new DepartmentRepository(dataSource.getRepository(Department));
+        // const departmentService = new  DepartmentService(departmentRepository);
 
-        const department = await departmentService.getDepartmentById(employeeDto.department);
+        const department = await this.departmentService.getDepartmentById(employeeDto.department);
 
         newEmployee.department = department;
         newEmployee.address = newAddress;
@@ -91,7 +91,8 @@ class EmployeeService {
         return null;
     }
 
-     loginEmployee = async(username: string, password: string) => {
+    
+    loginEmployee = async(username: string, password: string) => {
         const employee = await this.employeeRepository.findAnEmployeeByUsername(username);
         if(!employee){
             throw new HttpException(401, "Incorrect username or password");
@@ -121,7 +122,11 @@ class EmployeeService {
         for(const a in array){
             if(array[a]!=="address"){
                 employee[array[a]] = dto[array[a]];
-            }else{
+            }
+            else if(array[a]!=="password"){
+                continue;
+            }
+            else{
                 this.checkUpdateAddress(employee, dto[array[a]]);
             }
         }

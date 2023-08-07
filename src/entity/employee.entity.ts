@@ -35,6 +35,9 @@ class Employee extends AbstractEntity{
     @OneToOne(()=>Address, (address)=>address.employee, {cascade: true})
     address: Address;
 
+    @Column()
+    department_id: number;
+
 }
 
 export default Employee; 

@@ -13,9 +13,9 @@ class EmployeeRepository {
 
     findAllEmployees(): Promise<Employee[]> {
         return this.employeeRepository.find({
-            loadRelationIds: {
-                relations:["department"],
-            },
+            // loadRelationIds: {
+            //     relations:["department"],
+            // },
         });
 
     }
@@ -26,9 +26,9 @@ class EmployeeRepository {
             relations: {
                 address: true,
             },
-            loadRelationIds: {
-                relations: ["department"]
-            }
+            // loadRelationIds: {
+            //     relations: ["department"]
+            // }
         });   
     }
 
@@ -39,9 +39,9 @@ class EmployeeRepository {
             relations: {
                 address: true,
             },
-            loadRelationIds: {
-                relations:["department"],
-            },
+            // loadRelationIds: {
+            //     relations:["department"],
+            // },
         }); 
     }
     
@@ -57,9 +57,9 @@ class EmployeeRepository {
     findAnEmployeeByUsername(name: string): Promise<Employee> {
         return this.employeeRepository.findOne({
             where: { username: name },
-            loadRelationIds : {
-                relations: ["department"]
-            }
+            // loadRelationIds : {
+            //     relations: ["department"]
+            // }
         });
     }
 

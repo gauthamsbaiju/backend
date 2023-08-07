@@ -1,1 +1,2 @@
-{"dd":{"service":"backend","version":"1.0.0"},"level":"info","message":"All employees retrieved","service":"user-service"}
+{"level":"info","message":"541e0960-3504-11ee-b015-1d94d2bc354b All employees retrieved"}
+{"level":"warn","message":"56ceaa70-3504-11ee-b015-1d94d2bc354b Invalid Token"}

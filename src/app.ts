@@ -3,16 +3,17 @@ dotenv.config({ path: __dirname+'/.env' })
 import "reflect-metadata"
 import express, { NextFunction, Request, Response } from "express";
 import employeeRouter from "./route/employee.route";
-import loggerMiddleware from "./middleware/logger.middleware";
+// import loggerMiddleware from "./middleware/logger.middleware";
 import dataSource from "./db/postgres.db";
 import HttpException from "./exception/http.exception";
 import errorMiddleware from "./middleware/error.middleware";
-import departmentRouter from "./route/department.route";
+import {departmentRouter} from "./route/department.route";
 import rolesRouter from "./route/role.route";
+import addTrace from "./middleware/trace.middleware";
 
 const server = express();
 server.use(express.json());
-server.use(loggerMiddleware);
+server.use( addTrace);
 server.use('/api/employees', employeeRouter)
 server.use('/api/departments', departmentRouter)
 server.use('/api/roles', rolesRouter)

@@ -1,5 +1,6 @@
 import logger from "../logs/logger";
 import DataFormat from "../utils/dataFromat";
+import { RequestWithID } from "../utils/reqWithId";
 import { Role } from "../utils/role.enum";
 import express, { NextFunction } from "express";
 
@@ -12,12 +13,12 @@ class RolesController{
         this.router.get('/', this.getRoles);
     }
 
-    getRoles = async(req: express.Request, res: express.Response)=> {
+    getRoles = async(req: RequestWithID, res: express.Response)=> {
         for(const role in Role){
             this.roles.push(role);
         }
         const resData = new DataFormat(this.roles, null, "OK")
-        logger.info(`Roles retrieved`);
+        logger.info(req.id.toString(), {message:`Roles retrieved`});
         res.status(200).send(resData);
     }
 
